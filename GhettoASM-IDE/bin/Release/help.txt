@@ -1,0 +1,27 @@
+Operations:
+
+NOP 	= Does nothing for one cycle. It is mostly used for internal "tricks". Dont worry about it
+EXIT 	= Stop the program
+MOV	= Save variable/register in another register (e.g MOV R1, 1337)
+ADD,	= Add variable/register to another register (e.g ADD R1, 69)
+SUB,	= Subtract variable/register from another register (e.g SUB R1, 420)
+CMP,	= Compare two registers/variables which will set the cmp-flag like this: (EQUAL = 0, NOT_EQUAL = 1)
+JMP,	= Jump to a "Label" (e.g JMP #TESTLABEL) (more explained below)
+JE,	= Jump to a "Label", if cmp-flag is 0
+JNE,	= Jump to a "Label", if cmp-flag is 1
+RET,	= Jump's pushes the current pointer to a "ret-stack". "RET" will pop the current "ret-stack" and jump to that pointer. (like branches)
+PRNT,	= Print to output (e.g PRNT "Hello")
+PRNTR,	= Print value of a register (e.g PRNTR R1)
+INPT	= Get input from console (can't be used in the IDE as of now)
+
+
+Labels:
+They are defined like this "#TESTLABEL:" and can be used like this: "#TESTLABEL".
+They are mostly used for if-statements and branching.
+
+
+Memory-dump explanation:
+IP = Instruction Pointer
+R* = Register *
+Flags = Flags like the cmp-flag
+Return = Last return pointer

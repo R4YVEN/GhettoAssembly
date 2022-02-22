@@ -1,0 +1,6 @@
+C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\bin\Release\GhettoASM.dll
+C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\bin\Release\GhettoASM.pdb
+C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\obj\Release\GhettoASM.csproj.AssemblyReference.cache
+C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\obj\Release\GhettoASM.csproj.CoreCompileInputs.cache
+C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\obj\Release\GhettoASM.dll
+C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\obj\Release\GhettoASM.pdb

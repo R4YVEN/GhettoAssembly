@@ -1,0 +1,118 @@
+﻿using GhettoASM;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace GhettoASM_IDE
+{
+    public partial class Main : Form
+    {
+        static Main main;
+        bool currentlyExecuting = false;
+        bool stopExecuting = false;
+
+        public Main()
+        {
+            InitializeComponent();
+            main = this;
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        public void ExecuteProgramIDE()
+        {
+            GhettoASM.G.printfunc = typeof(Main).GetMethod("DebugLog");
+
+            GhettoASM.main.load_prog(codeBox.Text.Split('\n').ToList<string>());
+            currentlyExecuting = true;
+            while (!stopExecuting)
+            {
+                Application.DoEvents();
+
+                mem.ip++;
+
+                memoryWindow.Text = mem.dump_raw();
+
+                if (stopExecuting)
+                    goto exit;
+
+                if (mem.ip > G.prog.Count - 1)
+                    goto exit;
+
+                if (G.prog[(int)mem.ip].op == OP.EXIT)
+                    goto exit;
+
+                if (G.prog[(int)mem.ip].op == OP.NOP)
+                    continue;
+
+                Instruction ins = G.prog[(int)mem.ip];
+                if (!GhettoASM.main.exec_instruction(ins))
+                    goto exit;
+            }
+
+        exit:
+            stopExecuting = false;
+            currentlyExecuting = false;
+            mem.dump_to_file();
+        }
+
+        public static void DebugLog(string msg)
+        {
+            main.outputBox.AppendText(msg);
+            main.outputBox.ScrollToCaret();
+        }
+
+        private void tb_loadfromfile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "*.txt|*.ga";
+            ofd.Title = "Select .ga file";
+            DialogResult dr = ofd.ShowDialog();
+            if(dr == DialogResult.OK)
+                codeBox.Text = File.ReadAllText(ofd.FileName);
+        }
+
+        private void tb_save_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "*.ga|*.ga";
+            sfd.Title = "Where to save?";
+            DialogResult dr = sfd.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                File.WriteAllText(sfd.FileName, codeBox.Text);  
+                MessageBox.Show("Successfully saved under " + sfd.FileName, "File saved!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void execBtn_Click(object sender, EventArgs e)
+        {
+            if (currentlyExecuting)
+                stopExecuting = true;
+
+            outputBox.Clear();
+            GhettoASM.mem.reset();
+
+            execBtn.Text = "STOP!";
+            ExecuteProgramIDE();
+            execBtn.Text = "Execute";
+        }
+
+        private void helpBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("notepad.exe", Directory.GetCurrentDirectory() + "\\help.txt");
+        }
+    }
+}
