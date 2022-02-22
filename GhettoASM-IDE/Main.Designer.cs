@@ -38,13 +38,15 @@
             this.tb_new = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_loadfromfile = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_save = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpBtn = new System.Windows.Forms.ToolStripButton();
             this.codeBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.memoryWindow = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.delayedCheckBox = new System.Windows.Forms.CheckBox();
-            this.helpBtn = new System.Windows.Forms.ToolStripButton();
+            this.delayUD = new System.Windows.Forms.NumericUpDown();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.codeBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delayUD)).BeginInit();
             this.SuspendLayout();
             // 
             // execBtn
@@ -103,22 +105,32 @@
             // tb_new
             // 
             this.tb_new.Name = "tb_new";
-            this.tb_new.Size = new System.Drawing.Size(180, 22);
+            this.tb_new.Size = new System.Drawing.Size(148, 22);
             this.tb_new.Text = "New";
             // 
             // tb_loadfromfile
             // 
             this.tb_loadfromfile.Name = "tb_loadfromfile";
-            this.tb_loadfromfile.Size = new System.Drawing.Size(180, 22);
+            this.tb_loadfromfile.Size = new System.Drawing.Size(148, 22);
             this.tb_loadfromfile.Text = "Load from file";
             this.tb_loadfromfile.Click += new System.EventHandler(this.tb_loadfromfile_Click);
             // 
             // tb_save
             // 
             this.tb_save.Name = "tb_save";
-            this.tb_save.Size = new System.Drawing.Size(180, 22);
+            this.tb_save.Size = new System.Drawing.Size(148, 22);
             this.tb_save.Text = "Save";
             this.tb_save.Click += new System.EventHandler(this.tb_save_Click);
+            // 
+            // helpBtn
+            // 
+            this.helpBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.helpBtn.Image = ((System.Drawing.Image)(resources.GetObject("helpBtn.Image")));
+            this.helpBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.helpBtn.Name = "helpBtn";
+            this.helpBtn.Size = new System.Drawing.Size(36, 22);
+            this.helpBtn.Text = "Help";
+            this.helpBtn.Click += new System.EventHandler(this.helpBtn_Click);
             // 
             // codeBox
             // 
@@ -140,6 +152,7 @@
             this.codeBox.CharWidth = 8;
             this.codeBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codeBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.codeBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.codeBox.IsReplaceMode = false;
             this.codeBox.Location = new System.Drawing.Point(12, 28);
             this.codeBox.Name = "codeBox";
@@ -150,6 +163,7 @@
             this.codeBox.TabIndex = 6;
             this.codeBox.Text = "MOV R1, 1\r\nPRNTR R1";
             this.codeBox.Zoom = 100;
+            this.codeBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.codeBox_TextChanged);
             // 
             // memoryWindow
             // 
@@ -179,21 +193,34 @@
             this.delayedCheckBox.Text = "Delayed";
             this.delayedCheckBox.UseVisualStyleBackColor = true;
             // 
-            // helpBtn
+            // delayUD
             // 
-            this.helpBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.helpBtn.Image = ((System.Drawing.Image)(resources.GetObject("helpBtn.Image")));
-            this.helpBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.helpBtn.Name = "helpBtn";
-            this.helpBtn.Size = new System.Drawing.Size(36, 22);
-            this.helpBtn.Text = "Help";
-            this.helpBtn.Click += new System.EventHandler(this.helpBtn_Click);
+            this.delayUD.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.delayUD.Location = new System.Drawing.Point(83, 441);
+            this.delayUD.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.delayUD.Name = "delayUD";
+            this.delayUD.Size = new System.Drawing.Size(54, 20);
+            this.delayUD.TabIndex = 10;
+            this.delayUD.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(448, 465);
+            this.Controls.Add(this.delayUD);
             this.Controls.Add(this.delayedCheckBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.memoryWindow);
@@ -202,12 +229,14 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.execBtn);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
-            this.Text = "Main";
+            this.Text = "GhettoAssembly IDE";
             this.Load += new System.EventHandler(this.Main_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.codeBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delayUD)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,5 +256,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox delayedCheckBox;
         private System.Windows.Forms.ToolStripButton helpBtn;
+        private System.Windows.Forms.NumericUpDown delayUD;
     }
 }

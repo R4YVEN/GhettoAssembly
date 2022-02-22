@@ -1,4 +1,5 @@
-﻿using GhettoASM;
+﻿using FastColoredTextBoxNS;
+using GhettoASM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +32,22 @@ namespace GhettoASM_IDE
 
         }
 
+        private void execBtn_Click(object sender, EventArgs e)
+        {
+            if (currentlyExecuting)
+            {
+                stopExecuting = true;
+                return;
+            }
+
+            outputBox.Clear();
+            GhettoASM.mem.reset();
+
+            execBtn.Text = "STOP!";
+            ExecuteProgramIDE();
+            execBtn.Text = "Execute";
+        }
+
         public void ExecuteProgramIDE()
         {
             GhettoASM.G.printfunc = typeof(Main).GetMethod("DebugLog");
@@ -41,31 +58,39 @@ namespace GhettoASM_IDE
             {
                 Application.DoEvents();
 
-                mem.ip++;
-
-                memoryWindow.Text = mem.dump_raw();
-
                 if (stopExecuting)
                     goto exit;
 
                 if (mem.ip > G.prog.Count - 1)
                     goto exit;
 
+                if (delayedCheckBox.Checked)
+                {
+                    codeBox.SelectionColor= Color.Red;
+                    codeBox.Selection = codeBox.GetLine((int)mem.ip - 1);
+
+                    Thread.Sleep((int)delayUD.Value);
+                }
+
                 if (G.prog[(int)mem.ip].op == OP.EXIT)
                     goto exit;
 
-                if (G.prog[(int)mem.ip].op == OP.NOP)
-                    continue;
+                if (G.prog[(int)mem.ip].op != OP.NOP)
+                {
+                    Instruction ins = G.prog[(int)mem.ip];
+                    if (!GhettoASM.main.exec_instruction(ins))
+                        goto exit;
+                }
 
-                Instruction ins = G.prog[(int)mem.ip];
-                if (!GhettoASM.main.exec_instruction(ins))
-                    goto exit;
+                memoryWindow.Text = mem.dump_raw();
+                mem.ip++;
             }
 
         exit:
+            memoryWindow.Text = mem.dump_raw();
             stopExecuting = false;
             currentlyExecuting = false;
-            mem.dump_to_file();
+            //mem.dump_to_file();
         }
 
         public static void DebugLog(string msg)
@@ -80,8 +105,10 @@ namespace GhettoASM_IDE
             ofd.Filter = "*.txt|*.ga";
             ofd.Title = "Select .ga file";
             DialogResult dr = ofd.ShowDialog();
-            if(dr == DialogResult.OK)
+            if (dr == DialogResult.OK)
+            {
                 codeBox.Text = File.ReadAllText(ofd.FileName);
+            }
         }
 
         private void tb_save_Click(object sender, EventArgs e)
@@ -97,22 +124,21 @@ namespace GhettoASM_IDE
             }
         }
 
-        private void execBtn_Click(object sender, EventArgs e)
-        {
-            if (currentlyExecuting)
-                stopExecuting = true;
-
-            outputBox.Clear();
-            GhettoASM.mem.reset();
-
-            execBtn.Text = "STOP!";
-            ExecuteProgramIDE();
-            execBtn.Text = "Execute";
-        }
-
         private void helpBtn_Click(object sender, EventArgs e)
         {
             Process.Start("notepad.exe", Directory.GetCurrentDirectory() + "\\help.txt");
+        }
+
+        Style op_style = new TextStyle(Brushes.Green, null, FontStyle.Regular);
+        Style var_style = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
+        Style str_style = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
+        Style lbl_style = new TextStyle(Brushes.DarkOrange, null, FontStyle.Regular);
+        private void codeBox_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            codeBox.Range.SetStyle(op_style, @"\b(NOP|EXIT|MOV|ADD|SUB|CMP|JMP|JE|JNE|RET|PRNT|PRNTR|INPT)\b");
+            codeBox.Range.SetStyle(var_style, @"\b(IP|R1|R2|R3|R4|R5|R6|R7|R8|R9|)\b");
+            codeBox.Range.SetStyle(str_style, "\".*?\"");
+            codeBox.Range.SetStyle(lbl_style, @"#.*");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace GhettoASM
     public class mem
     {
         //instruction pointer
-        public static long ip = 0;
+        public static long ip = 1;
 
         //return pointer-chain
         public static Stack<long> retc = new Stack<long>();
@@ -101,7 +101,7 @@ namespace GhettoASM
         public static void reset()
         {
             //generals
-            ip = 0;
+            ip = 1;
             retc = new Stack<long>();
 
             //flags

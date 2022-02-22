@@ -4,3 +4,9 @@ C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\obj\Release\GhettoASM.csproj
 C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\obj\Release\GhettoASM.csproj.CoreCompileInputs.cache
 C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\obj\Release\GhettoASM.dll
 C:\Users\emlin\source\repos\GhettoASM-IDE\GhettoASM\obj\Release\GhettoASM.pdb
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\bin\Release\GhettoASM.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\bin\Release\GhettoASM.pdb
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\obj\Release\GhettoASM.csproj.AssemblyReference.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\obj\Release\GhettoASM.csproj.CoreCompileInputs.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\obj\Release\GhettoASM.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\obj\Release\GhettoASM.pdb

@@ -45,14 +45,14 @@ namespace GhettoASM
                     return field;
             }
 
-            return null;
+            return null;  //dont throw exception to support "is_arg_register" function
         }
 
         public static OP op_by_name(string str)
         {
             foreach (OP op in Enum.GetValues(typeof(OP)))
             {
-                if (Enum.GetName(typeof(OP), op) == str)
+                if (Enum.GetName(typeof(OP), op) == str.Trim())
                     return op;
             }
 
@@ -67,7 +67,7 @@ namespace GhettoASM
                     return label;
             }
 
-            return new Label(-1);
+            throw new Exception();  //make it clear to user that some line cant be interpreted
         }
 
         public static Label find_label(string name)
@@ -80,7 +80,7 @@ namespace GhettoASM
                 }
             }
 
-            return new Label(-1);
+            throw new Exception();  //make it clear to user that some line cant be interpreted
         }
 
         public static string parse_str(string arg)

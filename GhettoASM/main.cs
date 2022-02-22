@@ -93,6 +93,9 @@ namespace GhettoASM
         {
             G.raw_prog = code;
 
+            G.prog.Clear();
+            G.prog.Add(new Instruction());  //for indexing
+
             int i = 0;
             foreach (string line in G.raw_prog)
             {
@@ -108,7 +111,7 @@ namespace GhettoASM
                     if (line.StartsWith("#"))
                     {
                         Label label = new Label();
-                        label.name = line.Substring(1).Replace(":", "");
+                        label.name = line.Substring(1).Replace(":", "").Trim();
                         label.pointer = i;
 
                         G.labels.Add(label);
@@ -118,11 +121,11 @@ namespace GhettoASM
 
                     Instruction instruction = new Instruction();
                     instruction.pointer = i;
-                    instruction.op = utils.op_by_name(line.Split(' ')[0]);
+                    instruction.op = utils.op_by_name(line.Split(' ')[0].Trim());
 
                     if (line.Split(' ').Length > 1)
                     {
-                        instruction.arguments = utils.str_to_args(line.Substring(line.Split(' ')[0].Length + 1));
+                        instruction.arguments = utils.str_to_args(line.Substring(line.Split(' ')[0].Length + 1).Trim());
                     }
                     else
                     {
