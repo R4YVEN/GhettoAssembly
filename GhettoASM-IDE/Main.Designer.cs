@@ -152,7 +152,6 @@
             this.codeBox.CharWidth = 8;
             this.codeBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codeBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.codeBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.codeBox.IsReplaceMode = false;
             this.codeBox.Location = new System.Drawing.Point(12, 28);
             this.codeBox.Name = "codeBox";
@@ -229,6 +228,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.execBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
             this.Text = "GhettoAssembly IDE";
