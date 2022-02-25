@@ -15,7 +15,26 @@ namespace GhettoASM
                 switch (ins.op)
                 {
                     case OP.MOV:
-                        mem._write_register(ins.arguments[0], long.Parse(ins.arguments[1]));
+                        long mov_val = 0;
+                        if ((utils.is_arg_register(ins.arguments[1])))
+                            mov_val = mem._read_register(ins.arguments[1]);
+                        else if (ins.arguments[1].StartsWith("$"))
+                            mov_val = mem._read_ram<long>(long.Parse(ins.arguments[1].Substring(1)));
+                        else
+                            mov_val = long.Parse(ins.arguments[1]);
+
+
+                        if (utils.is_arg_register(ins.arguments[0]))
+                        {
+                            mem._write_register(ins.arguments[0], mov_val);
+                            break;
+                        }
+
+                        if (ins.arguments[0].StartsWith("$"))
+                        {
+                            mem._write_ram<long>(long.Parse(ins.arguments[0].Substring(1)), mov_val);
+                            break;
+                        }
                         break;
                     case OP.ADD:
                         mem._write_register(ins.arguments[0], mem._read_register(ins.arguments[0]) + (utils.is_arg_register(ins.arguments[1]) ? mem._read_register(ins.arguments[1]) : long.Parse(ins.arguments[1])));
@@ -24,6 +43,17 @@ namespace GhettoASM
                         mem._write_register(ins.arguments[0], mem._read_register(ins.arguments[0]) - (utils.is_arg_register(ins.arguments[1]) ? mem._read_register(ins.arguments[1]) : long.Parse(ins.arguments[1])));
                         break;
                     case OP.PRNT:
+                        if (ins.arguments[0].StartsWith("$"))
+                        {
+                            utils.print("" + mem._read_ram<long>(long.Parse(ins.arguments[0].Substring(1))));
+                            break;
+                        }
+                        else if ((utils.is_arg_register(ins.arguments[0])))
+                        {
+                            utils.print("" + mem._read_register(ins.arguments[0]));
+                            break;
+                        }
+
                         utils.print(ins.arguments[0].Replace("\\n", "\n"));
                         break;
                     case OP.PRNTR:
@@ -36,11 +66,29 @@ namespace GhettoASM
                         break;
                     case OP.JMP:
                         {
+                            if (ins.arguments[0].StartsWith("."))
+                            {
+                                long tptr;
+                                if (long.TryParse(ins.arguments[0].Substring(1), out tptr))
+                                {
+                                    mem.retc.Push(mem.ip);
+                                    mem.ip = tptr - 1;
+                                    break;
+                                }
+                                else
+                                {
+                                    throw new Exception();
+                                }
+                            }
                             Label label = utils.find_label(ins.arguments[0].Replace("#", "").Replace(":", ""));
                             if (label.pointer != -1)
                             {
                                 mem.retc.Push(mem.ip);
                                 mem.ip = label.pointer;
+                            }
+                            else
+                            {
+                                throw new Exception();
                             }
                         }
                         break;
@@ -48,11 +96,29 @@ namespace GhettoASM
                         {
                             if (mem.flags.cmp == 0)
                             {
+                                if (ins.arguments[0].StartsWith("$"))
+                                {
+                                    long tptr;
+                                    if (long.TryParse(ins.arguments[0].Substring(1), out tptr))
+                                    {
+                                        mem.retc.Push(mem.ip);
+                                        mem.ip = tptr - 1;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        throw new Exception();
+                                    }
+                                }
                                 Label label = utils.find_label(ins.arguments[0].Replace("#", "").Replace(":", ""));
                                 if (label.pointer != -1)
                                 {
                                     mem.retc.Push(mem.ip);
                                     mem.ip = label.pointer;
+                                }
+                                else
+                                {
+                                    throw new Exception();
                                 }
                             }
                         }
@@ -61,11 +127,29 @@ namespace GhettoASM
                         {
                             if (mem.flags.cmp == 1)
                             {
+                                if (ins.arguments[0].StartsWith("$"))
+                                {
+                                    long tptr;
+                                    if (long.TryParse(ins.arguments[0].Substring(1), out tptr))
+                                    {
+                                        mem.retc.Push(mem.ip);
+                                        mem.ip = tptr - 1;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        throw new Exception();
+                                    }
+                                }
                                 Label label = utils.find_label(ins.arguments[0].Replace("#", "").Replace(":", ""));
                                 if (label.pointer != -1)
                                 {
                                     mem.retc.Push(mem.ip);
                                     mem.ip = label.pointer;
+                                }
+                                else
+                                {
+                                    throw new Exception();
                                 }
                             }
                         }
@@ -78,13 +162,16 @@ namespace GhettoASM
                         Console.CursorTop--;    //prevent console from making new line after input
                         mem._write_register(ins.arguments[0], input);
                         break;
+                    case OP.TEST:
+                        utils.print("" + ram_manager.find_free_ram());
+                        break;
                 }
 
                 return true;
             }
-            catch
+            catch (Exception e)
             {
-                utils.print("[ERROR] Could not execute on line/pointer: " + ins.pointer + "\n");
+                utils.print("[ERROR] Could not execute on line: " + ins.pointer + "\nDetails: " + e.Message);
                 return false;
             }
         }
@@ -124,19 +211,15 @@ namespace GhettoASM
                     instruction.op = utils.op_by_name(line.Split(' ')[0].Trim());
 
                     if (line.Split(' ').Length > 1)
-                    {
                         instruction.arguments = utils.str_to_args(line.Substring(line.Split(' ')[0].Length + 1).Trim());
-                    }
                     else
-                    {
                         instruction.arguments = null;
-                    }
 
                     G.prog.Add(instruction);
                 }
                 catch
                 {
-                    utils.print("[ERROR] Could not interpret line: " + i+ "\n");
+                    utils.print("[ERROR] Could not interpret line: " + i + "\n");
                 }
             }
         }

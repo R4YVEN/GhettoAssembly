@@ -29,7 +29,7 @@ namespace GhettoASM_IDE
 
         private void Main_Load(object sender, EventArgs e)
         {
-
+            ramWindowUpdater.Start();
         }
 
         private void execBtn_Click(object sender, EventArgs e)
@@ -41,7 +41,8 @@ namespace GhettoASM_IDE
             }
 
             outputBox.Clear();
-            GhettoASM.mem.reset();
+            GhettoASM.mem.reset();      //reset memory to default
+            GhettoASM.G.reset_prog();   //reset all labels, instruction-lists, etc.
 
             execBtn.Text = "STOP!";
             ExecuteProgramIDE();
@@ -129,6 +130,7 @@ namespace GhettoASM_IDE
             Process.Start("notepad.exe", Directory.GetCurrentDirectory() + "\\help.txt");
         }
 
+
         Style op_style = new TextStyle(Brushes.Green, null, FontStyle.Regular);
         Style var_style = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
         Style str_style = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
@@ -139,6 +141,18 @@ namespace GhettoASM_IDE
             codeBox.Range.SetStyle(var_style, @"\b(IP|R1|R2|R3|R4|R5|R6|R7|R8|R9|)\b");
             codeBox.Range.SetStyle(str_style, "\".*?\"");
             codeBox.Range.SetStyle(lbl_style, @"#.*");
+        }
+
+        private void tb_new_Click(object sender, EventArgs e)
+        {
+            codeBox.Clear();
+            outputBox.Clear();
+            GhettoASM.mem.reset();
+        }
+
+        private void ramWindowUpdater_Tick(object sender, EventArgs e)
+        {
+            ramWindow.Text = BitConverter.ToString(mem.ram).Replace("-", " ");
         }
     }
 }

@@ -44,6 +44,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.delayedCheckBox = new System.Windows.Forms.CheckBox();
             this.delayUD = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.ramWindow = new System.Windows.Forms.RichTextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ramWindowUpdater = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.codeBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.delayUD)).BeginInit();
@@ -54,7 +58,7 @@
             this.execBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.execBtn.Location = new System.Drawing.Point(11, 406);
             this.execBtn.Name = "execBtn";
-            this.execBtn.Size = new System.Drawing.Size(423, 32);
+            this.execBtn.Size = new System.Drawing.Size(446, 32);
             this.execBtn.TabIndex = 1;
             this.execBtn.Text = "Execute";
             this.execBtn.UseVisualStyleBackColor = true;
@@ -65,7 +69,8 @@
             this.outputBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.outputBox.Location = new System.Drawing.Point(12, 280);
             this.outputBox.Name = "outputBox";
-            this.outputBox.Size = new System.Drawing.Size(249, 120);
+            this.outputBox.ReadOnly = true;
+            this.outputBox.Size = new System.Drawing.Size(272, 120);
             this.outputBox.TabIndex = 2;
             this.outputBox.Text = "";
             // 
@@ -85,7 +90,7 @@
             this.helpBtn});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(448, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(638, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -107,6 +112,7 @@
             this.tb_new.Name = "tb_new";
             this.tb_new.Size = new System.Drawing.Size(148, 22);
             this.tb_new.Text = "New";
+            this.tb_new.Click += new System.EventHandler(this.tb_new_Click);
             // 
             // tb_loadfromfile
             // 
@@ -145,7 +151,7 @@
         '\"',
         '\'',
         '\''};
-            this.codeBox.AutoScrollMinSize = new System.Drawing.Size(99, 28);
+            this.codeBox.AutoScrollMinSize = new System.Drawing.Size(123, 56);
             this.codeBox.BackBrush = null;
             this.codeBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.codeBox.CharHeight = 14;
@@ -158,17 +164,18 @@
             this.codeBox.Paddings = new System.Windows.Forms.Padding(0);
             this.codeBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.codeBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("codeBox.ServiceColors")));
-            this.codeBox.Size = new System.Drawing.Size(422, 223);
+            this.codeBox.Size = new System.Drawing.Size(613, 223);
             this.codeBox.TabIndex = 6;
-            this.codeBox.Text = "MOV R1, 1\r\nPRNTR R1";
+            this.codeBox.Text = "MOV $0, 1337\r\nMOV R2, $0\r\n\r\nPRNTR R2";
             this.codeBox.Zoom = 100;
             this.codeBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.codeBox_TextChanged);
             // 
             // memoryWindow
             // 
             this.memoryWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.memoryWindow.Location = new System.Drawing.Point(267, 280);
+            this.memoryWindow.Location = new System.Drawing.Point(290, 280);
             this.memoryWindow.Name = "memoryWindow";
+            this.memoryWindow.ReadOnly = true;
             this.memoryWindow.Size = new System.Drawing.Size(167, 120);
             this.memoryWindow.TabIndex = 7;
             this.memoryWindow.Text = "";
@@ -176,20 +183,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(264, 264);
+            this.label1.Location = new System.Drawing.Point(287, 264);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 8;
-            this.label1.Text = "Memory:";
+            this.label1.Text = "Overview:";
             // 
             // delayedCheckBox
             // 
             this.delayedCheckBox.AutoSize = true;
             this.delayedCheckBox.Location = new System.Drawing.Point(12, 442);
             this.delayedCheckBox.Name = "delayedCheckBox";
-            this.delayedCheckBox.Size = new System.Drawing.Size(65, 17);
+            this.delayedCheckBox.Size = new System.Drawing.Size(58, 17);
             this.delayedCheckBox.TabIndex = 9;
-            this.delayedCheckBox.Text = "Delayed";
+            this.delayedCheckBox.Text = "Debug";
             this.delayedCheckBox.UseVisualStyleBackColor = true;
             // 
             // delayUD
@@ -199,7 +206,7 @@
             0,
             0,
             0});
-            this.delayUD.Location = new System.Drawing.Point(83, 441);
+            this.delayUD.Location = new System.Drawing.Point(76, 441);
             this.delayUD.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -209,16 +216,53 @@
             this.delayUD.Size = new System.Drawing.Size(54, 20);
             this.delayUD.TabIndex = 10;
             this.delayUD.Value = new decimal(new int[] {
-            300,
+            50,
             0,
             0,
             0});
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(132, 444);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(23, 13);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "MS";
+            // 
+            // ramWindow
+            // 
+            this.ramWindow.BackColor = System.Drawing.SystemColors.Control;
+            this.ramWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ramWindow.ForeColor = System.Drawing.Color.Black;
+            this.ramWindow.Location = new System.Drawing.Point(463, 280);
+            this.ramWindow.Name = "ramWindow";
+            this.ramWindow.ReadOnly = true;
+            this.ramWindow.Size = new System.Drawing.Size(162, 158);
+            this.ramWindow.TabIndex = 12;
+            this.ramWindow.Text = "";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(460, 264);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(82, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Memory / RAM:";
+            // 
+            // ramWindowUpdater
+            // 
+            this.ramWindowUpdater.Tick += new System.EventHandler(this.ramWindowUpdater_Tick);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 465);
+            this.ClientSize = new System.Drawing.Size(638, 465);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.ramWindow);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.delayUD);
             this.Controls.Add(this.delayedCheckBox);
             this.Controls.Add(this.label1);
@@ -257,5 +301,9 @@
         private System.Windows.Forms.CheckBox delayedCheckBox;
         private System.Windows.Forms.ToolStripButton helpBtn;
         private System.Windows.Forms.NumericUpDown delayUD;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RichTextBox ramWindow;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Timer ramWindowUpdater;
     }
 }

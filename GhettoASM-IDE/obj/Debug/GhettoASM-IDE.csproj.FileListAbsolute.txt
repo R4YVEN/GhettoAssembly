@@ -1,10 +1,7 @@
-C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Debug\GhettoASM-IDE.exe.config
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Debug\GhettoASM-IDE.exe
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Debug\GhettoASM-IDE.pdb
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Debug\FastColoredTextBox.dll
-C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Debug\GhettoASM.dll
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Debug\FastColoredTextBox.xml
-C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Debug\GhettoASM.pdb
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Debug\GhettoASM-IDE.csproj.AssemblyReference.cache
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Debug\GhettoASM-IDE.csproj.SuggestedBindingRedirects.cache
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Debug\GhettoASM_IDE.Main.resources
@@ -14,3 +11,5 @@ C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Debug\GhettoASM
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Debug\GhettoASM-IDE.csproj.CopyComplete
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Debug\GhettoASM-IDE.exe
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Debug\GhettoASM-IDE.pdb
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Debug\GhettoASM.pdb
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Debug\GhettoASM.dll

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +14,10 @@ namespace GhettoASM
 {
     public class mem
     {
+        public static long[] registers = new long[20];
+        public static byte[] ram = new byte[1024 * 8];
+        public static bool[] ram_free_map = new bool[1024 * 128];
+
         //instruction pointer
         public static long ip = 1;
 
@@ -22,33 +30,39 @@ namespace GhettoASM
             public static int cmp = 0;  //last cmp result
         }
 
-        //registers
-        public static long r1 = 0;                              
-        public static long r2 = 0;
-        public static long r3 = 0;
-        public static long r4 = 0;
-        public static long r5 = 0;
-        public static long r6 = 0;
-        public static long r7 = 0;
-        public static long r8 = 0;
-        public static long r9 = 0;
+        public static T _read_ram<T>(long ptr)
+        {
+            Type type = typeof(T);
+            if (type == typeof(long))
+            {
+                return (T)Convert.ChangeType(ram_manager._read_long(ptr), typeof(long));
+            }
+
+            throw new Exception();
+        }
+
+        public static bool _write_ram<T>(long ptr, T val)
+        {
+            Type type = typeof(T);
+            if(type == typeof(long))
+            {
+                ram_manager._write_long(ptr, (long)Convert.ChangeType(val, typeof(long)));
+                return true;
+            }
+
+            return false;
+        }
 
         public static long _read_register(string reg)
         {
-            FieldInfo register = utils.register_by_name(reg.ToLower());
-            if (register == null)
-                return 0;
-
-            return (long)register.GetValue(null);
+            int target = int.Parse(reg.Substring(1));
+            return registers[target];
         }
 
         public static void _write_register(string reg, long val)
         {
-            FieldInfo register = utils.register_by_name(reg.ToLower());
-            if (register == null)
-                return;
-
-            register.SetValue(null, val);
+            int target = int.Parse(reg.Substring(1));
+            registers[target] = val;
         }
 
         public static string dump_raw()
@@ -57,15 +71,10 @@ namespace GhettoASM
 
             dump += "Registers:\n";
             dump += "IP: " + ip + "\n";
-            dump += "R1: " + r1 + "\n";
-            dump += "R2: " + r2 + "\n";
-            dump += "R3: " + r3 + "\n";
-            dump += "R4: " + r4 + "\n";
-            dump += "R5: " + r5 + "\n";
-            dump += "R6: " + r6 + "\n";
-            dump += "R7: " + r7 + "\n";
-            dump += "R8: " + r8 + "\n";
-            dump += "R9: " + r9 + "\n";
+            for(int i = 0; i < registers.Length; i++)
+            {
+                dump += "R" + i + ": " + registers[i] + "\n";
+            }
             dump += "\n";
             dump += "Flags: " + "\n";
             dump += "cmp: " + mem.flags.cmp + "\n";
@@ -77,25 +86,7 @@ namespace GhettoASM
 
         public static void dump_to_file()
         {
-            File.WriteAllText("memdump.txt", "");
-
-            File.AppendAllText("memdump.txt", "Registers:\n");
-
-            File.AppendAllText("memdump.txt", "IP: " + ip + "\n");
-            File.AppendAllText("memdump.txt", "R1: " + r1 + "\n");
-            File.AppendAllText("memdump.txt", "R2: " + r2 + "\n");
-            File.AppendAllText("memdump.txt", "R3: " + r3 + "\n");
-            File.AppendAllText("memdump.txt", "R4: " + r4 + "\n");
-            File.AppendAllText("memdump.txt", "R5: " + r5 + "\n");
-            File.AppendAllText("memdump.txt", "R6: " + r6 + "\n");
-            File.AppendAllText("memdump.txt", "R7: " + r7 + "\n");
-            File.AppendAllText("memdump.txt", "R8: " + r8 + "\n");
-            File.AppendAllText("memdump.txt", "R9: " + r9 + "\n");
-
-            File.AppendAllText("memdump.txt", "\n\n");
-
-            File.AppendAllText("memdump.txt", "Flags:\n");
-            File.AppendAllText("memdump.txt", "cmp:" + mem.flags.cmp + "\n");
+            File.WriteAllText("memdump.txt", dump_raw());
         }
 
         public static void reset()
@@ -107,16 +98,74 @@ namespace GhettoASM
             //flags
             flags.cmp = 0;
 
-            //registers
-            r1 = 0;
-            r2 = 0;
-            r3 = 0;
-            r4 = 0;
-            r5 = 0;
-            r6 = 0;
-            r7 = 0;
-            r8 = 0;
-            r9 = 0;
+            mem.registers = new long[20];
+            mem.ram = new byte[1024 * 8];
+
+            //make all the bytes status "free"
+            for (int i = 0; i < ram_free_map.Length; i++)
+                ram_free_map[i] = true;
+        }
+    }
+
+    public static class ram_manager
+    {
+        public static long find_free_ram()
+        {
+            for(int i = 0; i < mem.ram.Length; i += 8)
+            {
+                if (mem.ram_free_map[i] == true)
+                    return i;
+            }
+
+            throw new Exception("Could not find free ram.");
+        }
+
+        public static long _read_long(long ptr)
+        {
+            int size = GlobalExtensions.SizeOf<long>();
+            byte[] raw_val = new byte[size];
+
+            for (int i = 0; i < size; i++)
+            {
+                raw_val[i] = mem.ram[ptr + i];
+            }
+
+            return (long)BitConverter.ToUInt64(raw_val, 0);
+        }
+
+        public static bool _write_long(long ptr, long val)
+        {
+            int size = GlobalExtensions.SizeOf<long>();
+            byte[] raw_val = BitConverter.GetBytes(val);
+
+            for (int i = 0; i < size - 1; i++)
+            {
+                mem.ram[ptr + i] = raw_val[i];
+                mem.ram_free_map[ptr + i] = false;
+            }
+
+            return false;
+        }
+    }
+
+    public static class GlobalExtensions
+    {
+
+        public static int SizeOf<T>()
+        {
+            return SizeOf(typeof(T));
+        }
+
+        public static int SizeOf(this Type type)
+        {
+            var dynamicMethod = new DynamicMethod("SizeOf", typeof(int), Type.EmptyTypes);
+            var generator = dynamicMethod.GetILGenerator();
+
+            generator.Emit(OpCodes.Sizeof, type);
+            generator.Emit(OpCodes.Ret);
+
+            var function = (Func<int>)dynamicMethod.CreateDelegate(typeof(Func<int>));
+            return function();
         }
     }
 }

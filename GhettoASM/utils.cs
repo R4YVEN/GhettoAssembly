@@ -36,18 +36,6 @@ namespace GhettoASM
             }
         }
 
-        public static FieldInfo register_by_name(string str)
-        {
-            FieldInfo[] memoryfields = typeof(mem).GetFields(BindingFlags.Public | BindingFlags.Static);
-            foreach (FieldInfo field in memoryfields)
-            {
-                if (field.Name == str)
-                    return field;
-            }
-
-            return null;  //dont throw exception to support "is_arg_register" function
-        }
-
         public static OP op_by_name(string str)
         {
             foreach (OP op in Enum.GetValues(typeof(OP)))
@@ -80,7 +68,7 @@ namespace GhettoASM
                 }
             }
 
-            throw new Exception();  //make it clear to user that some line cant be interpreted
+            return new Label(-1);  //make it clear to user that some line cant be interpreted
         }
 
         public static string parse_str(string arg)
@@ -103,7 +91,23 @@ namespace GhettoASM
 
         public static bool is_arg_register(string arg)
         {
-            if (utils.register_by_name(arg.ToLower()) != null)
+            try
+            {
+                if (arg.ToLower()[0] == 'r')
+                {
+                    int target = int.Parse(arg.Substring(1));
+                    if (mem.registers.Length >= target - 1)
+                        return true;
+                }
+            }
+            catch { }
+
+            return false;
+        }
+
+        public static bool is_arg_label(string arg)
+        {
+            if (utils.find_label(arg.ToLower()).pointer != -1)
                 return true;
             else
                 return false;

@@ -1,0 +1,17 @@
+MOV R1, 0
+MOV R2, 5
+
+#LOOP:
+ADD R1, 1
+CMP R1, R2
+JE #END
+JMP #DO
+JMP #LOOP
+
+#DO
+PRNT "L"
+RET
+
+#END:
+PRNT "\nDONE!"
+EXIT

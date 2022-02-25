@@ -20,8 +20,9 @@ namespace GhettoASM
         JNE,
         RET,
         PRNT,
-        PRNTR,
-        INPT
+        PRNTR,  //deprecated and useless since normal PRNT can output registers too.
+        INPT,   //cant be used in the IDE as of now
+        TEST
     };
 
     public struct Instruction
@@ -59,5 +60,13 @@ namespace GhettoASM
         public static mem mem = new mem();
 
         public static MethodInfo printfunc = null;
+
+        public static void reset_prog()
+        {
+            //reset program
+            G.prog = new List<Instruction>() { new Instruction() };
+            G.raw_prog = new List<string>() { };
+            G.labels = new List<Label>() { };
+        }
     }
 }
