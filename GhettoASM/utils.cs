@@ -84,7 +84,7 @@ namespace GhettoASM
         {
             Instruction instruction = new Instruction();
             instruction.op = utils.op_by_name(line.Split(' ')[0]);
-            instruction.arguments = line.Substring(line.Split(' ')[0].Length + 1).Replace(" ", "").Split(','); //fixes spacing issue in one weird oneliner.. wtf??
+            instruction.arguments = line.Substring(line.Split(' ')[0].Length + 1).Replace(" ", "").Split(','); //fixes spacing issue in one weird oneliner.. i dont even know what i did here??
 
             return instruction;
         }

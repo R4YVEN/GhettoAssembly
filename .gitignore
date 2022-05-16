@@ -2,3 +2,4 @@
 .vs/GhettoASM-IDE/v17/.suo
 *.pdb
 *.cache
+.vs/*
