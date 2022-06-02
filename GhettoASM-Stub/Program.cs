@@ -12,17 +12,11 @@ namespace GhettoASM_Stub
 {
     internal class Program
     {
-        //to be set by the compiler somehow. it has to be initialized this way to work with dnlib. (size = 5012 +- 1)
-
         public static bool currentlyExecuting = false;
         public static bool stopExecuting = false;
 
         static void Main(string[] args)
         {
-            //for debugging
-            //compiled_gaobj = File.ReadAllBytes("compiled.gaobj");
-
-
             //initialize
             Stream compiledStream =  Assembly.GetExecutingAssembly().GetManifestResourceStream("compiled");
             MemoryStream reader = new MemoryStream();
@@ -32,8 +26,6 @@ namespace GhettoASM_Stub
                 Console.WriteLine("[GhettoASM] Empty program-buffer. This is likely the result of a compiler error.");
                 goto exit;
             }
-
-            //File.WriteAllBytes("cooom", reader.ToArray());
 
             GAObject gaobj = GhettoASM.serializer.deserialize_gaobj(reader.ToArray());
             G.prog = gaobj.prog.ToList();
