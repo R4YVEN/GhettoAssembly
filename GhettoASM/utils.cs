@@ -76,7 +76,7 @@ namespace GhettoASM
 
         public static string parse_str(string arg)
         {
-            //Implement proper checks and string-formatting
+            //TODO: Implement proper checks and string-formatting
             arg = arg.Remove(0, 1);
             arg = arg.Remove(arg.Length - 1, 1);
 
@@ -151,30 +151,6 @@ namespace GhettoASM
                 var obj = (GAObject)binForm.Deserialize(memStream);
                 return obj;
             }
-        }
-
-        internal static StructureType ReadStructure<StructureType>(Stream Stream)
-    where StructureType : struct
-        {
-            int Length = Marshal.SizeOf(typeof(StructureType));
-            byte[] Bytes = new byte[Length];
-            Stream.Read(Bytes, 0, Length);
-            IntPtr Handle = Marshal.AllocHGlobal(Length);
-            Marshal.Copy(Bytes, 0, Handle, Length);
-            StructureType Result = (StructureType)Marshal.PtrToStructure(Handle, typeof(StructureType));
-            Marshal.FreeHGlobal(Handle);
-            return Result;
-        }
-
-        internal static void WriteStructure(object Structure, Stream Stream)
-        {
-            int Length = Marshal.SizeOf(Structure);
-            byte[] Bytes = new byte[Length];
-            IntPtr Handle = Marshal.AllocHGlobal(Length);
-            Marshal.StructureToPtr(Structure, Handle, true);
-            Marshal.Copy(Handle, Bytes, 0, Length);
-            Marshal.FreeHGlobal(Handle);
-            Stream.Write(Bytes, 0, Length);
         }
     }
 }
