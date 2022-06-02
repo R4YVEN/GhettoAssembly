@@ -1,0 +1,6 @@
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\obj\Release\GhettoASM.csproj.AssemblyReference.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\obj\Release\GhettoASM.csproj.CoreCompileInputs.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\obj\Release\GhettoASM.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\bin\Release\GhettoASM.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\bin\Release\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM\obj\Release\GhettoASM.csproj.CopyComplete

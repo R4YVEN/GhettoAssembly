@@ -1,0 +1,10 @@
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\bin\Release\GhettoASM-Compiler.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\bin\Release\GhettoASM-Compiler.pdb
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\bin\Release\dnlib.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\bin\Release\GhettoASM.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\bin\Release\dnlib.xml
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\obj\Release\GhettoASM-Compiler.csproj.AssemblyReference.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\obj\Release\GhettoASM-Compiler.csproj.CoreCompileInputs.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\obj\Release\GhettoASM-Compiler.csproj.CopyComplete
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\obj\Release\GhettoASM-Compiler.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Compiler\obj\Release\GhettoASM-Compiler.pdb

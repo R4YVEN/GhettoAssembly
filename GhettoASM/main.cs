@@ -16,13 +16,12 @@ namespace GhettoASM
                 {
                     case OP.MOV:
                         long mov_val = 0;
-                        if ((utils.is_arg_register(ins.arguments[1])))
+                        if ((utils.is_arg_register(ins.arguments[1]))) 
                             mov_val = mem._read_register(ins.arguments[1]);
-                        else if (ins.arguments[1].StartsWith("$"))
+                        else if (ins.arguments[1].StartsWith("$")) 
                             mov_val = mem._read_ram<long>(long.Parse(ins.arguments[1].Substring(1)));
-                        else
+                        else 
                             mov_val = long.Parse(ins.arguments[1]);
-
 
                         if (utils.is_arg_register(ins.arguments[0]))
                         {
@@ -159,7 +158,7 @@ namespace GhettoASM
                         break;
                     case OP.INPT:
                         long input = long.Parse(Console.ReadLine());
-                        Console.CursorTop--;    //prevent console from making new line after input
+                        Console.CursorTop--; //prevent console from making new line after input
                         mem._write_register(ins.arguments[0], input);
                         break;
                     case OP.TEST:
@@ -181,7 +180,7 @@ namespace GhettoASM
             G.raw_prog = code;
 
             G.prog.Clear();
-            G.prog.Add(new Instruction());  //for indexing
+            G.prog.Add(new Instruction()); //for indexing
 
             int i = 0;
             foreach (string line in G.raw_prog)
@@ -210,10 +209,8 @@ namespace GhettoASM
                     instruction.pointer = i;
                     instruction.op = utils.op_by_name(line.Split(' ')[0].Trim());
 
-                    if (line.Split(' ').Length > 1)
-                        instruction.arguments = utils.str_to_args(line.Substring(line.Split(' ')[0].Length + 1).Trim());
-                    else
-                        instruction.arguments = null;
+                    if (line.Split(' ').Length > 1) instruction.arguments = utils.str_to_args(line.Substring(line.Split(' ')[0].Length + 1).Trim());
+                    else instruction.arguments = null;
 
                     G.prog.Add(instruction);
                 }
@@ -226,28 +223,26 @@ namespace GhettoASM
 
         public static void exec_prog()
         {
-            while (true)
+            while (mem.ip < G.prog.Count())
             {
-                mem.ip++;
-
                 if (mem.ip > G.prog.Count - 1)
                     goto exit;
 
                 if (G.prog[(int)mem.ip].op == OP.EXIT)
                     goto exit;
 
-                if (G.prog[(int)mem.ip].op == OP.NOP)
-                    continue;
+                if (G.prog[(int)mem.ip].op != OP.NOP)
+                {
+                    Instruction ins = G.prog[(int)mem.ip];
+                    if (!GhettoASM.main.exec_instruction(ins))
+                        goto exit;
+                }
 
-                Instruction ins = G.prog[(int)mem.ip];
-                if (!exec_instruction(ins))
-                    goto exit;
-
-                mem.dump_raw();
+                mem.ip++;
             }
 
         exit:
-            mem.dump_to_file();
+            Environment.Exit(0);
         }
     }
 }

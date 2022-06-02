@@ -1,0 +1,14 @@
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\bin\Release\GhettoASM-Stub.exe.config
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\bin\Release\GhettoASM-Stub.exe
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\bin\Release\GhettoASM-Stub.pdb
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\bin\Release\System.Diagnostics.DiagnosticSource.xml
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM-Stub.csproj.AssemblyReference.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM-Stub.csproj.SuggestedBindingRedirects.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM-Stub.exe.config
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM_Stub.Properties.Resources.resources
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM-Stub.csproj.GenerateResource.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM-Stub.csproj.CoreCompileInputs.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM-Stub.csproj.Fody.CopyLocal.cache
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM-Stub.csproj.CopyComplete
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM-Stub.exe
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-Stub\obj\Release\GhettoASM-Stub.pdb
