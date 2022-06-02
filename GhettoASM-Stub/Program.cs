@@ -31,7 +31,7 @@ namespace GhettoASM_Stub
             GAObject gaobj = GhettoASM.serializer.deserialize_gaobj(reader.ToArray());
             G.prog = gaobj.prog.ToList();
             G.labels = gaobj.labels.ToList();
-            //G.printfunc = typeof(Program).GetMethod("DebugLog");
+            G.printfunc = typeof(Program).GetMethod("DebugLog");
 
             //execute
             main.exec_prog();
