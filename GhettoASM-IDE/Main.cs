@@ -30,6 +30,7 @@ namespace GhettoASM_IDE
         private void Main_Load(object sender, EventArgs e)
         {
             ramWindowUpdater.Start();
+            GhettoASM.main.load_prog(codeBox.Text.Split('\n').ToList<string>());
         }
 
         private void execBtn_Click(object sender, EventArgs e)
@@ -110,6 +111,8 @@ namespace GhettoASM_IDE
             {
                 codeBox.Text = File.ReadAllText(ofd.FileName);
             }
+
+            GhettoASM.main.load_prog(codeBox.Text.Split('\n').ToList<string>());
         }
 
         private void tb_save_Click(object sender, EventArgs e)
@@ -121,7 +124,7 @@ namespace GhettoASM_IDE
             if (dr == DialogResult.OK)
             {
                 File.WriteAllText(sfd.FileName, codeBox.Text);  
-                MessageBox.Show("Successfully saved under " + sfd.FileName, "File saved!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Successfully saved at " + sfd.FileName, "File saved!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -153,6 +156,29 @@ namespace GhettoASM_IDE
         private void ramWindowUpdater_Tick(object sender, EventArgs e)
         {
             ramWindow.Text = BitConverter.ToString(mem.ram).Replace("-", " ");
+        }
+
+        private void compileToGAOBJToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "*.exe|*.exe";
+            sfd.Title = "Where to save?";
+            DialogResult dr = sfd.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                byte[] compiled = GhettoASM.serializer.serialize_prog();
+                int result = GhettoASM_Compiler.Compiler.compile_with_cs(sfd.FileName, File.ReadAllBytes("stub\\stub.bin"));
+                if (result == 0)
+                    MessageBox.Show("Successfully saved compiled program at " + sfd.FileName + "\n\nMake sure to execute it with the command prompt to see the output.", "Program compiled!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else if (result == -1)
+                    MessageBox.Show("Failed to compile. I dont want to add proper error-handling so figure it out yourself", "Compilation failed!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void testbtn_Click(object sender, EventArgs e)
+        {
+            GAObject test = serializer.deserialize_gaobj(File.ReadAllBytes("compiled"));
+            MessageBox.Show("" + test.prog.Length);
         }
     }
 }

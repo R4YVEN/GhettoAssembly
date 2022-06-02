@@ -26,3 +26,7 @@ C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Release\GhettoA
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Release\GhettoASM-IDE.csproj.CoreCompileInputs.cache
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Release\GhettoASM-IDE.csproj.CopyComplete
 C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\obj\Release\GhettoASM-IDE.exe
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Release\dnlib.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Release\dnlib.xml
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Release\GhettoASM-Compiler.dll
+C:\Users\emlin\Documents\GitHub\GhettoAssembly\GhettoASM-IDE\bin\Release\GhettoASM-Compiler.pdb

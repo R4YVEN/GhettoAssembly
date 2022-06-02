@@ -148,9 +148,8 @@ namespace GhettoASM
         }
     }
 
-    public static class GlobalExtensions
+    internal static class GlobalExtensions
     {
-
         public static int SizeOf<T>()
         {
             return SizeOf(typeof(T));

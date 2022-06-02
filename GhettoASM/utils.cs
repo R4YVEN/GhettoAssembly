@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -111,6 +114,67 @@ namespace GhettoASM
                 return true;
             else
                 return false;
+        }
+    }
+
+    public static class serializer
+    {
+        public static byte[] serialize_prog()
+        {
+            GAObject gaobj = new GAObject(G.prog, G.labels);
+            gaobj.prog = G.prog.ToArray();
+            gaobj.labels = G.labels.ToArray();
+            byte[] raw_gaobj = serialize_gaobj(gaobj);
+
+            //details, versioning etc later. only serializing for now
+
+            return raw_gaobj;
+        }
+
+        public static byte[] serialize_gaobj(GAObject gaobj)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            using (var ms = new MemoryStream())
+            {
+                bf.Serialize(ms, gaobj);
+                return ms.ToArray();
+            }
+        }
+
+        public static GAObject deserialize_gaobj(byte[] bytes)
+        {
+            using (var memStream = new MemoryStream())
+            {
+                var binForm = new BinaryFormatter();
+                memStream.Write(bytes, 0, bytes.Length);
+                memStream.Seek(0, SeekOrigin.Begin);
+                var obj = (GAObject)binForm.Deserialize(memStream);
+                return obj;
+            }
+        }
+
+        internal static StructureType ReadStructure<StructureType>(Stream Stream)
+    where StructureType : struct
+        {
+            int Length = Marshal.SizeOf(typeof(StructureType));
+            byte[] Bytes = new byte[Length];
+            Stream.Read(Bytes, 0, Length);
+            IntPtr Handle = Marshal.AllocHGlobal(Length);
+            Marshal.Copy(Bytes, 0, Handle, Length);
+            StructureType Result = (StructureType)Marshal.PtrToStructure(Handle, typeof(StructureType));
+            Marshal.FreeHGlobal(Handle);
+            return Result;
+        }
+
+        internal static void WriteStructure(object Structure, Stream Stream)
+        {
+            int Length = Marshal.SizeOf(Structure);
+            byte[] Bytes = new byte[Length];
+            IntPtr Handle = Marshal.AllocHGlobal(Length);
+            Marshal.StructureToPtr(Structure, Handle, true);
+            Marshal.Copy(Handle, Bytes, 0, Length);
+            Marshal.FreeHGlobal(Handle);
+            Stream.Write(Bytes, 0, Length);
         }
     }
 }

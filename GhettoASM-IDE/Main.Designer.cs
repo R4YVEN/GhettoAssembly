@@ -37,6 +37,7 @@
             this.fileToolBar = new System.Windows.Forms.ToolStripDropDownButton();
             this.tb_new = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_loadfromfile = new System.Windows.Forms.ToolStripMenuItem();
+            this.compileToGAOBJToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_save = new System.Windows.Forms.ToolStripMenuItem();
             this.helpBtn = new System.Windows.Forms.ToolStripButton();
             this.codeBox = new FastColoredTextBoxNS.FastColoredTextBox();
@@ -48,6 +49,7 @@
             this.ramWindow = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.ramWindowUpdater = new System.Windows.Forms.Timer(this.components);
+            this.testbtn = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.codeBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.delayUD)).BeginInit();
@@ -100,6 +102,7 @@
             this.fileToolBar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tb_new,
             this.tb_loadfromfile,
+            this.compileToGAOBJToolStripMenuItem,
             this.tb_save});
             this.fileToolBar.Image = ((System.Drawing.Image)(resources.GetObject("fileToolBar.Image")));
             this.fileToolBar.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -110,21 +113,28 @@
             // tb_new
             // 
             this.tb_new.Name = "tb_new";
-            this.tb_new.Size = new System.Drawing.Size(148, 22);
+            this.tb_new.Size = new System.Drawing.Size(180, 22);
             this.tb_new.Text = "New";
             this.tb_new.Click += new System.EventHandler(this.tb_new_Click);
             // 
             // tb_loadfromfile
             // 
             this.tb_loadfromfile.Name = "tb_loadfromfile";
-            this.tb_loadfromfile.Size = new System.Drawing.Size(148, 22);
+            this.tb_loadfromfile.Size = new System.Drawing.Size(180, 22);
             this.tb_loadfromfile.Text = "Load from file";
             this.tb_loadfromfile.Click += new System.EventHandler(this.tb_loadfromfile_Click);
+            // 
+            // compileToGAOBJToolStripMenuItem
+            // 
+            this.compileToGAOBJToolStripMenuItem.Name = "compileToGAOBJToolStripMenuItem";
+            this.compileToGAOBJToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.compileToGAOBJToolStripMenuItem.Text = "Compile";
+            this.compileToGAOBJToolStripMenuItem.Click += new System.EventHandler(this.compileToGAOBJToolStripMenuItem_Click);
             // 
             // tb_save
             // 
             this.tb_save.Name = "tb_save";
-            this.tb_save.Size = new System.Drawing.Size(148, 22);
+            this.tb_save.Size = new System.Drawing.Size(180, 22);
             this.tb_save.Text = "Save";
             this.tb_save.Click += new System.EventHandler(this.tb_save_Click);
             // 
@@ -158,6 +168,7 @@
             this.codeBox.CharWidth = 8;
             this.codeBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codeBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.codeBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.codeBox.IsReplaceMode = false;
             this.codeBox.Location = new System.Drawing.Point(12, 28);
             this.codeBox.Name = "codeBox";
@@ -255,11 +266,22 @@
             // 
             this.ramWindowUpdater.Tick += new System.EventHandler(this.ramWindowUpdater_Tick);
             // 
+            // testbtn
+            // 
+            this.testbtn.Location = new System.Drawing.Point(550, 440);
+            this.testbtn.Name = "testbtn";
+            this.testbtn.Size = new System.Drawing.Size(75, 21);
+            this.testbtn.TabIndex = 14;
+            this.testbtn.Text = "Test [DEV]";
+            this.testbtn.UseVisualStyleBackColor = true;
+            this.testbtn.Click += new System.EventHandler(this.testbtn_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(638, 465);
+            this.Controls.Add(this.testbtn);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.ramWindow);
             this.Controls.Add(this.label3);
@@ -305,5 +327,7 @@
         private System.Windows.Forms.RichTextBox ramWindow;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Timer ramWindowUpdater;
+        private System.Windows.Forms.ToolStripMenuItem compileToGAOBJToolStripMenuItem;
+        private System.Windows.Forms.Button testbtn;
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GhettoASM
 {
+    [Serializable]
     public enum OP
     {
         NOP,
@@ -25,6 +26,7 @@ namespace GhettoASM
         TEST
     };
 
+    [Serializable]
     public struct Instruction
     {
         public int pointer;
@@ -39,6 +41,7 @@ namespace GhettoASM
         }
     }
 
+    [Serializable]
     public struct Label
     {
         public int pointer;
@@ -48,6 +51,19 @@ namespace GhettoASM
         {
             pointer = _pointer;
             name = "";
+        }
+    }
+
+    [Serializable]
+    public struct GAObject
+    {
+        public Instruction[] prog;
+        public Label[] labels;
+
+        public GAObject(List<Instruction> _prog, List<Label> _labels)
+        {
+            prog = _prog.ToArray();
+            labels = _labels.ToArray();
         }
     }
 
