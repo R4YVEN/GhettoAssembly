@@ -23,7 +23,7 @@ namespace GhettoASM
         PRNT,
         PRNTR,  //deprecated and useless since normal PRNT can output registers too.
         INPT,   //cant be used in the IDE as of now
-        TEST
+        FFMEM   //find free memory and store its address in R19
     };
 
     [Serializable]
@@ -73,7 +73,7 @@ namespace GhettoASM
         public static List<Instruction> prog = new List<Instruction>() { new Instruction() };
         public static List<Label> labels = new List<Label>();
 
-        public static mem mem = new mem();
+        //public static mem mem = new mem();
 
         public static MethodInfo printfunc = null;
 

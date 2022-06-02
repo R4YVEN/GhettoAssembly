@@ -34,6 +34,11 @@ namespace GhettoASM
                             mem._write_ram<long>(long.Parse(ins.arguments[0].Substring(1)), mov_val);
                             break;
                         }
+
+                        if (ins.arguments[0].StartsWith("["))
+                        {
+                            mem._write_ram<long>(mem._read_register(ins.arguments[0].Substring(1).Trim(']')), mov_val);
+                        }
                         break;
                     case OP.ADD:
                         mem._write_register(ins.arguments[0], mem._read_register(ins.arguments[0]) + (utils.is_arg_register(ins.arguments[1]) ? mem._read_register(ins.arguments[1]) : long.Parse(ins.arguments[1])));
@@ -161,8 +166,8 @@ namespace GhettoASM
                         Console.CursorTop--; //prevent console from making new line after input
                         mem._write_register(ins.arguments[0], input);
                         break;
-                    case OP.TEST:
-                        utils.print("" + ram_manager.find_free_ram());
+                    case OP.FFMEM:
+                        mem._write_register("R19", ram_manager.find_free_ram());
                         break;
                 }
 

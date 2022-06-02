@@ -33,6 +33,8 @@ namespace GhettoASM_Stub
             G.labels = gaobj.labels.ToList();
             G.printfunc = typeof(Program).GetMethod("DebugLog");
 
+            mem.reset();      //reset memory to default
+
             //execute
             main.exec_prog();
         }

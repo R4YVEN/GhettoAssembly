@@ -140,8 +140,8 @@ namespace GhettoASM_IDE
         Style lbl_style = new TextStyle(Brushes.DarkOrange, null, FontStyle.Regular);
         private void codeBox_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
         {
-            codeBox.Range.SetStyle(op_style, @"\b(NOP|EXIT|MOV|ADD|SUB|CMP|JMP|JE|JNE|RET|PRNT|PRNTR|INPT)\b");
-            codeBox.Range.SetStyle(var_style, @"\b(IP|R1|R2|R3|R4|R5|R6|R7|R8|R9|)\b");
+            codeBox.Range.SetStyle(op_style, @"\b(NOP|EXIT|MOV|ADD|SUB|CMP|JMP|JE|JNE|RET|PRNT|PRNTR|INPT|FFMEM)\b");
+            codeBox.Range.SetStyle(var_style, @"\b(IP|R1|R2|R3|R4|R5|R6|R7|R8|R9|R10|R11|R12|R13|R14|R15|R16|R17|R18|R19)\b");
             codeBox.Range.SetStyle(str_style, "\".*?\"");
             codeBox.Range.SetStyle(lbl_style, @"#.*");
         }
@@ -160,6 +160,8 @@ namespace GhettoASM_IDE
 
         private void compileToGAOBJToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            GhettoASM.main.load_prog(codeBox.Text.Split('\n').ToList<string>());
+
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "*.exe|*.exe";
             sfd.Title = "Where to save?";

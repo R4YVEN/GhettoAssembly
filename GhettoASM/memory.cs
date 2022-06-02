@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GhettoASM
 {
-    public class mem
+    public static class mem
     {
         public static long[] registers = new long[20];
         public static byte[] ram = new byte[1024 * 8];
@@ -100,6 +100,7 @@ namespace GhettoASM
 
             mem.registers = new long[20];
             mem.ram = new byte[1024 * 8];
+            mem.ram_free_map = new bool[1024 * 128];
 
             //make all the bytes status "free"
             for (int i = 0; i < ram_free_map.Length; i++)
