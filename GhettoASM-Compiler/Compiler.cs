@@ -8,6 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
+//I made a whole extra project for this thinking it would be super difficult and big code. I was wrong.
 namespace GhettoASM_Compiler
 {
     public static class Compiler
